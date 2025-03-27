@@ -1,0 +1,1 @@
+1. Create simple ecomerse website it must have cart, checkout, stripe integration use node js use vue js on frontend use sqlite3 on the backend and express endpoints, seed some products in db, make design using some ui lib
