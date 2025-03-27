@@ -4,6 +4,7 @@ import Products from '../views/Products.vue'
 import Cart from '../views/Cart.vue'
 import Checkout from '../views/Checkout.vue'
 import OrderConfirmation from '../views/OrderConfirmation.vue'
+import Orders from '../views/Orders.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/order-confirmation',
     name: 'OrderConfirmation',
     component: OrderConfirmation
+  },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: Orders
   }
 ]
 

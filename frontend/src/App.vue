@@ -1,36 +1,12 @@
 <template>
-  <div class="min-h-screen bg-background">
-    <header class="border-b">
-      <nav class="container mx-auto px-4 h-16 flex items-center justify-between">
-        <router-link to="/" class="text-xl font-bold">
-          VueShop
-        </router-link>
-        
-        <div class="flex gap-6">
-          <router-link 
-            v-for="item in navigation" 
-            :key="item.path"
-            :to="item.path"
-            class="text-sm font-medium transition-colors hover:text-primary"
-          >
-            {{ item.name }}
-          </router-link>
-        </div>
-      </nav>
-    </header>
-
-    <main class="container mx-auto px-4 py-8">
-      <router-view></router-view>
-    </main>
+  <div id="app">
+    <Navigation />
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup>
-const navigation = [
-  { name: 'Home', path: '/' },
-  { name: 'Products', path: '/products' },
-  { name: 'Cart', path: '/cart' }
-]
+import Navigation from './components/Navigation.vue'
 </script>
 
 <style>
