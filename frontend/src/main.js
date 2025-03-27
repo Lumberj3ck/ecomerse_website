@@ -4,6 +4,7 @@ import ElementPlus from 'element-plus'
 import App from './App.vue'
 import router from './router'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { useAuthStore } from './stores/auth'
 
 // CSS imports
 import './assets/main.css'
@@ -19,4 +20,8 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
 
-app.mount('#app') 
+app.mount('#app')
+
+// Fetch authenticated user on app initialization
+const authStore = useAuthStore();
+authStore.fetchUser();

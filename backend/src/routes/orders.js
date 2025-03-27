@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db/database');
+const auth = require('../middleware/auth');
 
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
+  const userId = req.user.id; // Get user ID from the request
+
   db.all(`
     SELECT 
       o.*,
@@ -13,8 +16,9 @@ router.get('/', (req, res) => {
     FROM orders o
     LEFT JOIN order_items oi ON o.id = oi.order_id
     LEFT JOIN products p ON oi.product_id = p.id
+    WHERE o.user_id = ? -- Filter by user ID
     ORDER BY o.created_at DESC
-  `, (err, rows) => {
+  `, [userId], (err, rows) => {
     if (err) {
       console.error('Database error:', err);
       return res.status(500).json({ message: 'Error fetching orders' });
@@ -71,4 +75,4 @@ router.get('/', (req, res) => {
   });
 });
 
-module.exports = router; 
+module.exports = router;

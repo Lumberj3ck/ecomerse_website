@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const paypal = require('@paypal/checkout-server-sdk');
 const db = require('../db/database');
+const auth = require('../middleware/auth');
 
 // Add this near the top of payment.js
 if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
@@ -9,17 +10,19 @@ if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
 }
 
 // Create order in database
-router.post('/order', async (req, res) => {
+router.post('/order', auth, async (req, res) => {
   try {
     const { items, shipping, paypalOrderId, total } = req.body;
+    const userId = req.user.id; // Get user ID from the request
 
     // Insert order
     db.run(
       `INSERT INTO orders (
-        total_amount, status, paypal_order_id, 
+        user_id, total_amount, status, paypal_order_id, 
         shipping_name, shipping_address, shipping_city, shipping_postal_code
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
+        userId, // Store user ID
         total,
         'completed',
         paypalOrderId,
@@ -59,4 +62,4 @@ router.post('/order', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

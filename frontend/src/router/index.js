@@ -5,6 +5,9 @@ import Cart from '../views/Cart.vue'
 import Checkout from '../views/Checkout.vue'
 import OrderConfirmation from '../views/OrderConfirmation.vue'
 import Orders from '../views/Orders.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import { useAuthStore } from '../stores/auth'
 
 const routes = [
   {
@@ -35,7 +38,25 @@ const routes = [
   {
     path: '/orders',
     name: 'Orders',
-    component: Orders
+    component: Orders,
+    beforeEnter: (to, from, next) => {
+      const authStore = useAuthStore()
+      if (!authStore.token) {
+        next('/login')
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
   }
 ]
 
@@ -44,4 +65,4 @@ const router = createRouter({
   routes
 })
 
-export default router 
+export default router
